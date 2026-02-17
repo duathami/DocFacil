@@ -1,9 +1,10 @@
 from fastapi import FastAPI, Request, UploadFile, File, Form
-from fastapi.responses import StreamingResponse, HTMLResponse, FileResponse
+from fastapi.responses import StreamingResponse, HTMLResponse, FileResponse, PlainTextResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from app.core.processor import process_and_convert_to_pdf
 import io
+import os
 
 app = FastAPI(title="DocFácil - O Scanner do MEI")
 
@@ -35,7 +36,16 @@ async def ajuda(request: Request):
 
 @app.get("/ads.txt")
 async def get_ads_txt():
-    return FileResponse("ads.txt")
+    # Tenta encontrar o arquivo na raiz ou na pasta app
+    paths_to_check = ["ads.txt", "app/ads.txt", "../ads.txt"]
+    
+    for path in paths_to_check:
+        if os.path.exists(path):
+            return FileResponse(path)
+    
+    # Se não encontrar o arquivo físico, ele retorna o texto direto (Truque de mestre)
+    content = "google.com, pub-4988918194052295, DIRECT, f08c47fec0942fa0"
+    return PlainTextResponse(content=content)
 
 
 @app.post("/convert")
