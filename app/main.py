@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Request, UploadFile, File, Form
-from fastapi.responses import StreamingResponse, HTMLResponse
+from fastapi.responses import StreamingResponse, HTMLResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from app.core.processor import process_and_convert_to_pdf
@@ -31,6 +31,11 @@ async def termos(request: Request):
 @app.get("/ajuda", response_class=HTMLResponse)
 async def ajuda(request: Request):
     return templates.TemplateResponse("ajuda.html", {"request": request})
+
+
+@app.get("/ads.txt")
+async def get_ads_txt():
+    return FileResponse("ads.txt")
 
 
 @app.post("/convert")
