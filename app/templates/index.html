@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DocFácil | O Scanner do MEI</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header class="hero-banner">
+        <div class="header-container">
+            <img src="/static/img/logo.png" alt="DocFácil" class="main-logo">
+            <div class="hero-text">
+                <h1>DocFácil<span>.</span></h1>
+                <p>O Scanner inteligente para o Microempreendedor.</p>
+            </div>
+        </div>
+    </header>
+
+    <main class="content-wrapper">
+        <div class="features-row">
+            <div class="feature-item"><span>🔒</span> 100% Seguro</div>
+            <div class="feature-item"><span>⚡</span> Ultra Rápido</div>
+            <div class="feature-item"><span>📄</span> PDF Otimizado</div>
+        </div>
+
+        <section class="converter-section">
+            <div class="glass-card">
+                <h3>Converter fotos em PDF</h3>
+                <p>Arraste suas fotos ou clique para selecionar</p>
+                
+                <form id="uploadForm" action="/convert" method="post" enctype="multipart/form-data">
+                    <label for="fileInput" class="drop-area">
+                        <div class="icon-circle">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
+                            </svg>
+                        </div>
+                        <span class="file-label">Selecionar arquivos JPG ou PNG</span>
+                        <input type="file" id="fileInput" name="files" multiple required hidden>
+                    </label>
+                    
+                    <button type="submit" class="btn-primary">GERAR PDF AGORA</button>
+                </form>
+
+                <div id="statusArea" style="display:none; margin-top: 20px;">
+                    <p id="statusMsg">⏳ Processando suas imagens...</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="minimal-footer">
+        <div class="footer-links">
+            <a href="/privacidade">Privacidade</a>
+            <a href="#">Termos</a>
+            <a href="#">Ajuda</a>
+        </div>
+        <p>&copy; 2026 DocFácil. Todos os direitos reservados.</p>
+    </footer>
+
+<script>
+    const uploadForm = document.getElementById('uploadForm');
+    const btnPrimary = document.querySelector('.btn-primary');
+    const statusArea = document.getElementById('statusArea');
+    const statusMsg = document.getElementById('statusMsg');
+
+    uploadForm.onsubmit = async (e) => {
+        e.preventDefault();
+
+        // 1. Prepara a interface para o carregamento
+        btnPrimary.disabled = true;
+        btnPrimary.style.opacity = '0.7';
+        btnPrimary.innerHTML = '✨ PROCESSANDO IMAGENS...';
+        
+        statusArea.style.display = 'block';
+        statusMsg.innerHTML = '⏳ <strong>Limpando fotos e gerando PDF...</strong><br><small>Isso pode levar alguns segundos dependendo do tamanho das imagens.</small>';
+
+        const formData = new FormData(uploadForm);
+
+        try {
+            const response = await fetch('/convert', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.ok) {
+                // 2. Transforma a resposta em um arquivo (Blob)
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                
+                // 3. Simula o clique para download automático
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = "DocFacil_Documento.pdf";
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+
+                // 4. Feedback de Sucesso Final
+                btnPrimary.innerHTML = '✅ PDF GERADO COM SUCESSO!';
+                btnPrimary.style.backgroundColor = '#2ecc71'; // Muda para um verde sucesso
+                statusMsg.innerHTML = '🎉 <strong>Download concluído!</strong> Seu documento já deve estar na sua pasta de transferências.';
+                
+                // Reseta o botão após 5 segundos para permitir nova conversão
+                setTimeout(() => {
+                    btnPrimary.disabled = false;
+                    btnPrimary.style.opacity = '1';
+                    btnPrimary.style.backgroundColor = ''; // Volta para o verde menta original
+                    btnPrimary.innerHTML = 'GERAR PDF AGORA';
+                    statusArea.style.display = 'none';
+                }, 5000);
+
+            } else {
+                throw new Error('Falha na conversão');
+            }
+        } catch (error) {
+            btnPrimary.disabled = false;
+            btnPrimary.style.opacity = '1';
+            btnPrimary.innerHTML = 'ERRO! TENTAR NOVAMENTE';
+            statusMsg.innerHTML = '❌ <strong>Ocorreu um erro.</strong> Verifique se os arquivos são imagens válidas.';
+        }
+    };
+</script>
+
+</body>
+</html>

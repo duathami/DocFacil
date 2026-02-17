@@ -1,0 +1,138 @@
+:root {
+    --primary: #70C1B3;
+    --dark: #24475B;
+    --bg: #F8FAFB;
+    --white: #ffffff;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg);
+    color: var(--dark);
+    line-height: 1.6;
+}
+
+/* Header & Hero Banner - Reduzido para ser menos "grosso" */
+.hero-banner {
+    background: linear-gradient(135deg, #70C1B3 0%, #24475B 100%);
+    padding: 30px 20px 60px 20px; /* Reduzi o padding superior e aumentei o inferior para o overlap */
+    color: var(--white);
+    width: 100%;
+    text-align: center;
+    border-bottom-left-radius: 40px;
+    border-bottom-right-radius: 40px;
+    box-shadow: 0 10px 30px rgba(36, 71, 91, 0.1);
+}
+
+.main-logo {
+    width: 100px;
+    height: 80px;
+    object-fit: contain;
+    margin-bottom: 10px;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+}
+
+.hero-text h1 { font-size: 2.2rem; font-weight: 800; letter-spacing: -1px; }
+.hero-text h1 span { color: #A7FFEB; }
+.hero-text p { opacity: 0.9; font-size: 1rem; margin-bottom: 5px; }
+
+/* Content Wrapper - Ajustado para os botões não ficarem colados na borda */
+.content-wrapper {
+    max-width: 800px;
+    margin: -45px auto 40px; /* Subimos um pouco menos para dar folga */
+    padding: 0 20px;
+}
+
+/* Features - Botões de Recursos */
+.features-row {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.feature-item {
+    background: var(--white);
+    padding: 8px 18px;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Card Conversor */
+.glass-card {
+    background: var(--white);
+    padding: 40px;
+    border-radius: 30px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+    text-align: center;
+}
+
+.glass-card h3 { font-size: 1.4rem; margin-bottom: 10px; }
+.glass-card p { color: #777; margin-bottom: 25px; font-size: 0.95rem; }
+
+/* Drop Area */
+.drop-area {
+    display: block;
+    border: 2px dashed #DDE5E9;
+    border-radius: 20px;
+    padding: 40px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.drop-area:hover {
+    border-color: var(--primary);
+    background-color: #F0FDF4;
+}
+
+.icon-circle {
+    width: 60px;
+    height: 60px;
+    background: #F0FDF4;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 15px;
+    color: var(--primary);
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 16px 40px;
+    border-radius: 15px;
+    font-weight: 800;
+    width: 100%;
+    margin-top: 25px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(112, 193, 179, 0.4);
+}
+
+/* Footer */
+.minimal-footer {
+    text-align: center;
+    padding: 30px;
+    color: #999;
+    font-size: 0.85rem;
+}
+
+.footer-links a {
+    margin: 0 12px;
+    color: var(--dark);
+    text-decoration: none;
+    font-weight: 600;
+}
