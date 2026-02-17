@@ -23,6 +23,16 @@ async def privacidade(request: Request):
     return templates.TemplateResponse("privacidade.html", {"request": request})
 
 
+@app.get("/termos", response_class=HTMLResponse)
+async def termos(request: Request):
+    return templates.TemplateResponse("termos.html", {"request": request})
+
+
+@app.get("/ajuda", response_class=HTMLResponse)
+async def ajuda(request: Request):
+    return templates.TemplateResponse("ajuda.html", {"request": request})
+
+
 @app.post("/convert")
 async def convert_images(files: list[UploadFile] = File(...)):
     """
